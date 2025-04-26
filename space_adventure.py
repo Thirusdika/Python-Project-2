@@ -145,7 +145,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
-        self.speedy = 1
+        self.speedy = 9rect.right > SCREEN_WIDTH + 20 and rect.left < -20).player.lives -= 1game_over
 
     def update(self):
         self.rect.y += self.speedy
