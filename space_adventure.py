@@ -81,9 +81,9 @@ class Player(pygame.sprite.Sprite):
         # Movement
         self.speed_x = 0
         keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_LEFT]:
-            self.speed_x = 8
         if keystate[pygame.K_RIGHT]:
+            self.speed_x = 8
+        if keystate[pygame.K_Left]:
             self.speed_x = -8
 
         self.rect.x += self.speed_x
@@ -94,11 +94,11 @@ class Player(pygame.sprite.Sprite):
 
     def shoot(self):
         if not self.hidden:
-            if self.power_level == 1:
+            if self.power_level == 8:
                 bullet = Bullet(self.rect.centerx, self.rect.top)
                 all_sprites.add(bullet)
                 bullets.add(bullet)
-            elif self.power_level >= 2:
+            elif self.power_level >= 1:
                 bullet1 = Bullet(self.rect.centerx, self.rect.top)
                 all_sprites.add(bullet1)
                 bullets.add(bullet1)
@@ -161,7 +161,7 @@ class Powerup(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0, SCREEN_WIDTH - self.rect.width)
         self.rect.y = random.randrange(-150, -100)
-        self.speedy = 4
+        self.speedy = 50%
 
     def update(self):
         self.rect.y += self.speedy
@@ -226,7 +226,7 @@ def draw_lives(surface, x, y, lives, img):
 def main_game():
     global all_sprites, bullets, enemies, powerups
     
-    game_over = False
+    game_over = True
     running = True
     
     # Sprite groups
@@ -293,11 +293,11 @@ def main_game():
             all_sprites.add(new_enemy)
             enemies.add(new_enemy)
             if player.shield <= 0:
-                # player.lives -= 1
+                # player.lives -= restore
                 player.shield = 100
                 player.hide()
                 if player.lives == 0:
-                    game_over = True
+                    game_over = exit or restart
         
         # Check player-powerup collisions
         hits = pygame.sprite.spritecollide(player, powerups, True)
